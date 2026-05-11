@@ -1,111 +1,106 @@
 import streamlit as st
 import os
+import time
 from inference import NewsClassifier
 
 # --------------------------------------------------
 # PAGE CONFIG
 # --------------------------------------------------
+st.markdown("""
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+""", unsafe_allow_html=True)
 st.set_page_config(
-    page_title="AI News Classifier",
-    page_icon="📰",
-    layout="wide"
+    page_title="NovaNews • AI Classifier",
+    page_icon="🌐",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
 # --------------------------------------------------
-# GLOBAL STYLES (EMERALD DARK THEME)
+# STYLES
 # --------------------------------------------------
 st.markdown(
     """
     <style>
-    /* 1. Main Background */
+    /* Global Background */
     [data-testid="stAppViewContainer"] {
-        background: linear-gradient(135deg, #020b08 0%, #051a11 100%) !important;
+        background: linear-gradient(135deg, #0a0a0f 0%, #1a0f2e 100%) !important;
     }
-
     .stApp {
         background: transparent;
-        color: #d1fae5;
-    }
-
-    /* 2. Sidebar Background */
-    [data-testid="stSidebar"] {
-        background-color: #010806 !important;
-        border-right: 1px solid #064e3b !important;
-    }
-
-    /* 3. Headings & Custom Sidebar Emerald Headers */
-    h1, h2, h3, .emerald-header {
-        color: #6ee7b7 !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.5px;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    /* 4. Text Area */
-    textarea {
-        background-color: #04120c !important;
-        color: #ecfdf5 !important;
-        border-radius: 12px !important;
-        border: 1px solid #065f46 !important;
-    }
-
-    /* 5. Modern Buttons (Main & Sidebar Widgets) */
-    .stButton > button, div[data-baseweb="select"] > div {
-        background: linear-gradient(90deg, #10b981, #059669) !important;
-        color: #000000 !important;
-        border-radius: 10px !important;
-        border: none !important;
-        font-weight: 700 !important;
-    }
-
-    .stButton > button:hover {
-        background: linear-gradient(90deg, #34d399, #10b981) !important;
-        box-shadow: 0px 4px 15px rgba(16, 185, 129, 0.4) !important;
-    }
-
-    /* 6. Styled Tip Box (Green background, white text) */
-    div[data-testid="stNotification"] {
-        background-color: #065f46 !important;
-        color: #ffffff !important;
-        border: 1px solid #10b981 !important;
-        border-radius: 10px;
+        color: #f0f0f5;
     }
     
-    /* Ensure icon in tip box is also white */
-    div[data-testid="stNotification"] svg {
-        fill: #ffffff !important;
+    /* Sidebar */
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #120d24 0%, #1a0f2e 100%) !important;
+        border-right: 2px solid #6b4eff !important;
     }
-
-    /* 7. Results Card */
-    .card {
-        background-color: rgba(6, 78, 59, 0.15);
-        border-radius: 16px;
-        padding: 24px;
-        border: 1px solid #065f46;
-        backdrop-filter: blur(10px);
+    
+    /* Main Header */
+    h1 {
+        background: linear-gradient(90deg, #a855f7, #22d3ee);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 800 !important;
+        letter-spacing: -1px;
     }
-
-
-    /* 8. Sticky Footer */
+    
+    /* Input Area */
+    textarea {
+        background-color: #1f1633 !important;
+        color: #e0d9ff !important;
+        border: 2px solid #6b4eff !important;
+        border-radius: 16px !important;
+        font-size: 1.05rem !important;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background: linear-gradient(90deg, #7c3aed, #22d3ee) !important;
+        color: #ffffff !important;
+        border-radius: 50px !important;
+        height: 3.2rem !important;
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4) !important;
+        transition: all 0.3s ease;
+    }
+    .stButton > button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6) !important;
+    }
+    
+    /* Result Card */
+    .result-card {
+        background: linear-gradient(145deg, rgba(30, 20, 60, 0.9), rgba(15, 10, 35, 0.95));
+        border: 1px solid #8b5cf6;
+        border-radius: 20px;
+        padding: 28px;
+        margin-top: 20px;
+        box-shadow: 0 10px 30px rgba(139, 92, 246, 0.25);
+        backdrop-filter: blur(12px);
+    }
+    
+    /* Sidebar Headers */
+    .sidebar-header {
+        color: #c4b5fd !important;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+    
+    /* Footer */
     .footer {
         position: fixed;
-        left: 21rem; /* sidebar width */
-        bottom: 12px;
-        width: calc(100% - 21rem);
+        bottom: 15px;
+        left: 50%;
+        transform: translateX(-50%);
         color: #64748b;
+        font-size: 0.9rem;
         text-align: center;
-        padding: 6px 0;
-        font-size: 14px;
-        z-index: 999;
-        background: transparent;
-}
-
-    }
-
-    /* Prevent content from hiding behind footer */
-    .block-container {
-        padding-bottom: 80px;
+        z-index: 100;
     }
     </style>
     """,
@@ -113,7 +108,7 @@ st.markdown(
 )
 
 # --------------------------------------------------
-# MODELS INITIALIZATION
+# MODEL LOAD
 # --------------------------------------------------
 @st.cache_resource
 def load_classifier():
@@ -122,58 +117,138 @@ def load_classifier():
 classifier = load_classifier()
 
 # --------------------------------------------------
-# SIDEBAR
+# SIDEBAR 
 # --------------------------------------------------
 with st.sidebar:
-    st.markdown('<span class="emerald-header">⚙️ Select Model</span>', unsafe_allow_html=True)
+    st.markdown(
+    '# <i class="fa-solid fa-earth-americas"></i> NovaNews',
+    unsafe_allow_html=True)
+    st.markdown("**News Classifier AI**")
+    st.markdown("---")
     
+    #  Model 
+    st.markdown(
+    '<p class="sidebar-header"><i class="fa-solid fa-brain"></i> Model</p>',
+    unsafe_allow_html=True)
     model_choice = st.selectbox(
-        "Select Model Architecture:",
-        ("Machine Learning (SVM)", "Deep Learning (Neural Network)"),
+        "Choose Architecture",
+        ("Machine Learning (SVM)",),
+        label_visibility="collapsed"
+    )
+    st.success("⚡ Fast & Lightweight")
+    st.info(" We will add the Deep Learning model soon.")
+    
+    st.markdown("---")
+    
+    # System Information
+    st.markdown(
+    '<p class="sidebar-header"><i class="fa-solid fa-gear"></i> System Information</p>',
+    unsafe_allow_html=True)
+    st.markdown("""
+    **NLP:** TF-IDF  
+    **Model:** SVM  
+    **Framework:** Streamlit
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown(
+    '<p class="sidebar-header"><i class="fa-solid fa-bookmark"></i> Categories</p>',
+    unsafe_allow_html=True)
+    st.markdown("""
+    - <i class="fa-solid fa-earth-americas"></i>  **World**  
+    - <i class="fa-solid fa-futbol"></i>  **Sports**  
+    - <i class="fa-solid fa-briefcase"></i>  **Business**  
+    - <i class="fa-solid fa-microchip"></i>  **Sci/Tech**
+    """, unsafe_allow_html=True)
+    st.caption("**Note**: Currently the model only predicts these 4 categories")
+    st.info(" More categories will be added soon when we expand to Deep Learning")
+    
+    st.markdown("---")
+    st.markdown(
+    '<p class="sidebar-header"><i class="fa-solid fa-lightbulb"></i> Quick Tips</p>',
+    unsafe_allow_html=True)
+    st.markdown("""
+    • Paste full article or just headline  
+    • SVM works best for both short and long text
+    """)
+    
+    st.markdown("---")
+    st.markdown("**Made by Azhar Mehmood**")
+    st.markdown("[**GitHub Repo**](https://github.com/AzharMehmood4/news-classifier)")
+    st.markdown("[**Connect on LinkedIn**](https://www.linkedin.com/in/azharmehmod)")
+
+# --------------------------------------------------
+# MAIN LAYOUT 
+# --------------------------------------------------
+col1, col2 = st.columns([1.1, 1])
+
+with col1:
+    st.markdown(
+    '# <i class="fa-solid fa-earth-americas"></i> Classify News Instantly',
+    unsafe_allow_html=True)
+    st.markdown("#### Powered by AI • Real-time • Accurate")
+    
+    input_text = st.text_area(
+        "",
+        placeholder="Paste your news headline or full article here...",
+        height=260,
         label_visibility="collapsed"
     )
     
-    st.info("Tip: The ML model is faster for short headlines, while the DL model often handles nuanced context better.")
-    
-    st.markdown("---")
-    st.markdown('<span class="emerald-header">🛠️ Tools & Technologies</span>', unsafe_allow_html=True)
-    st.markdown("- **NLP:** TF-IDF / Tokenization\n- **ML:** Scikit-Learn (SVM)\n- **DL:** Keras/TensorFlow\n- **App:** Streamlit")
-    
+    run_button = st.button(" Classify Now", use_container_width=True)
 
-    st.markdown("---")
-    st.markdown('<span class="emerald-header">👨‍💻 Project by:</span>', unsafe_allow_html=True)
-    st.markdown("**Azhar Mehmood**")
-    st.markdown("- [Check Github Repository](https://github.com/azharmehmood4/)\n- [Connect on Linkedin](https://www.linkedin.com/in/azharmehmod)")
-
+with col2:
+    st.markdown("### How NovaNews Works")
+    st.info("""
+    1. Paste any news content  
+    2. Choose model type ( Deep Learning will be added soon )
+    3. Get accurate AI classification
+    """)
+    
+    st.markdown("#### Example Headlines")
+    examples = [
+        "Apple unveils new MacBook with revolutionary M4 chip",
+        "Pakistan cricket team wins T20 World Cup final",
+        "Global markets crash amid new trade tensions",
+        "Scientists discover potential cure for Alzheimer's"
+    ]
+    for ex in examples:
+        if st.button(ex, use_container_width=True, key=ex):
+            input_text = ex
 
 # --------------------------------------------------
-# MAIN CONTENT
+#  STREAMING
 # --------------------------------------------------
-st.markdown("# 📰 AI News Classifier")
-st.markdown("Instantly categorize news articles into **World, Sports, Business, or Sci/Tech** using hybrid modeling.")
-
-input_text = st.text_area(
-    "💡 Paste the news headline or content here:",
-    placeholder="e.g., NASA's James Webb telescope captures stunning new images of distant galaxies...",
-    height=180
-)
-
-run_button = st.button("🚀 Classify Article", use_container_width=True)
-st.markdown("</div>", unsafe_allow_html=True)
+def stream_text(text, placeholder):
+    output = ""
+    for char in text:
+        output += char
+        placeholder.markdown(
+            f"""
+            <div class="result-card">
+                <h2 style="margin:0; color:#c4b5fd;">{output}<span style="color:#a855f7; animation: blink 0.8s infinite;">▋</span></h2>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        time.sleep(0.018)
 
 # --------------------------------------------------
 # EXECUTION
 # --------------------------------------------------
 if run_button:
-    if not input_text.strip():
-        st.warning("Please enter some text to analyze.")
+    if not input_text or not input_text.strip():
+        st.error(" Please enter some text to classify.")
     else:
-        with st.spinner("🤖 Processing text and running inference..."):
-            m_type = 'ml' if "Machine Learning" in model_choice else 'dl'
-            result = classifier.predict(input_text, model_type=m_type)
-            
-            st.markdown("### 🎯 Prediction Result")
-            st.success(f"The article is classified as: **{result}**")
+        with st.spinner("Analyzing with AI..."):
+            result = classifier.predict(input_text, model_type='ml')
+        
+        st.markdown(
+        '### <i class="fa-solid fa-bullseye"></i> Classification Result',
+        unsafe_allow_html=True)
+        placeholder = st.empty()
+        stream_text(f"Based on detailed analysis, this article is categorized as:  {result}", placeholder )
 
 # --------------------------------------------------
 # FOOTER
@@ -181,11 +256,8 @@ if run_button:
 st.markdown(
     """
     <div class="footer">
-        Developed by 
-        <a href="https://github.com/Furqan09Ahmed/news-classification-system" target="_blank">
-            Furqan Ahmed
-        </a>
-        | NLP Document Classification System
+        NovaNews AI Classifier • using Streamlit &nbsp; | &nbsp; 
+        <a href="https://github.com/AzharMehmood4/news-classifier" target="_blank">Azhar Mehmood</a>
     </div>
     """,
     unsafe_allow_html=True

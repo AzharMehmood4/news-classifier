@@ -10,7 +10,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from keras.layers import Embedding
 
 # ==============================
-# FIX FOR KERAS EMBEDDING ERROR
+# KERAS EMBEDDING ERROR
 # ==============================
 
 original_from_config = Embedding.from_config
@@ -60,10 +60,10 @@ class NewsClassifier:
 
         if os.path.exists(ml_path):
             self.ml_pipeline = joblib.load(ml_path)
-            print(f"✅ Loaded ML Model: {ml_model_name}")
+            print(f" Loaded ML Model: {ml_model_name}")
         else:
             self.ml_pipeline = None
-            print(f"❌ ML Model not found at {ml_path}")
+            print(f" ML Model not found at {ml_path}")
 
         # ==============================
         # LOAD DL MODEL
@@ -78,15 +78,15 @@ class NewsClassifier:
                     compile=False
                 )
 
-                print(f"✅ Loaded DL Model: {dl_model_name}")
+                print(f" Loaded DL Model: {dl_model_name}")
 
             except Exception as e:
                 self.dl_model = None
-                print(f"❌ Error loading DL model: {e}")
+                print(f" Error loading DL model: {e}")
 
         else:
             self.dl_model = None
-            print(f"❌ DL Model not found at {dl_path}")
+            print(f" DL Model not found at {dl_path}")
 
         # ==============================
         # LOAD TOKENIZER
@@ -98,11 +98,11 @@ class NewsClassifier:
             with open(tok_path, 'rb') as f:
                 self.tokenizer = pickle.load(f)
 
-            print(f"✅ Loaded Tokenizer: {tokenizer_name}")
+            print(f" Loaded Tokenizer: {tokenizer_name}")
 
         else:
             self.tokenizer = None
-            print(f"❌ Tokenizer not found at {tok_path}")
+            print(f" Tokenizer not found at {tok_path}")
 
     # ==============================
     # CLEAN TEXT
