@@ -1,8 +1,9 @@
-# 📰 AI News Classifier
+#🌐 News Classifier AI
 
-An end-to-end **Natural Language Processing (NLP)** system that classifies news articles into  
-**World, Sports, Business, and Sci/Tech** categories using both **traditional machine learning**
-and **deep learning** models, wrapped in a production-ready inference layer and interactive UI.
+An end-to-end **Natural Language Processing (NLP)** system that classifies news articles into
+**World, Sports, Business, and Sci/Tech** categories using both traditional machine learning
+and deep learning models, wrapped in a production-ready inference layer and interactive UI.
+Soon, we will extend it further with more categories and advanced AI models.
 
 ---
 
@@ -23,7 +24,7 @@ and deployability**, similar to real-world ML engineering workflows.
 
 ---
 
-## 🏗️ System Architecture
+##  System Architecture
 
 Raw News Data
 ↓
@@ -55,6 +56,8 @@ They are fast, interpretable, and perform exceptionally well on structured news 
 
 The neural network was trained to capture non-linear patterns and contextual information
 beyond bag-of-words representations.
+Deep Learning Model
+Soon, we will improve it further and extend it with more advanced architectures.
 
 ### Model Selection Rationale
 Although ensemble approaches were explored, a single SVM-based model was preferred for
@@ -85,21 +88,30 @@ Models were evaluated using standard classification metrics:
 
 ## 🌐 Live Demo
 
-🔗 **Live Application:**  https://huggingface.co/spaces/Furqan09Ahmed/ai-news-classifier
-
+🔗 **Live Application:**  
 
 The application allows users to input a news headline or article snippet and instantly
-predict its category using either a machine learning or deep learning model.
+predict its category using a machine learning model, with deep learning support coming soon for further improvements and expansion.
 
 ---
 
 ## 📸 Application Preview
 
-### Input Interface
-![News Classifier Input](assets/ui_input.png)
+### Overview
+<img width="1366" height="725" alt="overview" src="https://github.com/user-attachments/assets/df3ecc17-0a4a-49cf-ab7e-1464590c5ed5" />
 
-### Prediction Output
-![News Classification Result](assets/ui_prediction.png)
+### Prediction Output 
+#### Business Atrticle
+<img width="1366" height="701" alt="business news" src="https://github.com/user-attachments/assets/5d3afdab-e68e-4b0d-8f86-245289e04601" />
+
+#### Sports Article
+<img width="1366" height="701" alt="sports news" src="https://github.com/user-attachments/assets/7e88a2a2-8d50-4813-824c-cf1b2c1b80b0" />
+
+#### World Article
+<img width="1366" height="701" alt="World news" src="https://github.com/user-attachments/assets/792f4c9e-0f82-49cb-8823-62cee7051f1e" />
+
+#### Sci/Tech Article
+<img width="1366" height="701" alt="tech news" src="https://github.com/user-attachments/assets/98cccce1-d3ba-46a7-8bf4-6eed555c1ae3" />
 
 
 ## ⚙️ Run Locally
@@ -107,14 +119,14 @@ predict its category using either a machine learning or deep learning model.
 Clone the repository and run the application locally:
 
 ```bash
-git clone https://github.com/Furqan09Ahmed/ai-news-classifier.git
-cd ai-news-classifier
+git clone 
+cd news-classifier
 
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-streamlit run app/app.py
+streamlit run src/streamlit_app.py
 ````
 
 ---
@@ -133,10 +145,9 @@ streamlit run app/app.py
 
 ## 👤 Author
 
-**Furqan Ahmed**
+**Azhar Mehmood** 
+**Alyan Asghar**
+**Muhammad Moez Khan**
 
-* 🌐 Portfolio: [https://FurqanAhmed.me](https://FurqanAhmed.me)
-* 💻 GitHub: [https://github.com/Furqan09Ahmed](https://github.com/Furqan09Ahmed)
-* 🔗 LinkedIn: [https://www.linkedin.com/in/Furqan09Ahmed](https://www.linkedin.com/in/Furqan09Ahmed)
 
 ---
