@@ -10,7 +10,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from keras.layers import Embedding
 
 # ==============================
-# KERAS EMBEDDING ERROR
+# KERA ERROR
 # ==============================
 
 original_from_config = Embedding.from_config
