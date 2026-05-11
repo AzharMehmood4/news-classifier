@@ -3,6 +3,7 @@
 An end-to-end **Natural Language Processing (NLP)** system that classifies news articles into
 **World, Sports, Business, and Sci/Tech** categories using both traditional machine learning
 and deep learning models, wrapped in a production-ready inference layer and interactive UI.
+
 Soon, we will extend it further with more categories and advanced AI models.
 
 ---
@@ -57,6 +58,7 @@ They are fast, interpretable, and perform exceptionally well on structured news 
 The neural network was trained to capture non-linear patterns and contextual information
 beyond bag-of-words representations.
 Deep Learning Model
+
 Soon, we will improve it further and extend it with more advanced architectures.
 
 ### Model Selection Rationale
@@ -139,5 +141,6 @@ streamlit run src/app.py
 - **Azhar Mehmood** (8397)  
 - **Alyan Asghar** (8651)  
 - **Muhammad Moez Khan** (8774)
+- **Ijaz Ahmad** (8830)
 
 ---
