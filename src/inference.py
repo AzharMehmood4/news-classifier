@@ -45,7 +45,7 @@ class NewsClassifier:
         Initializes the classifier by loading the saved models.
         """
 
-        # Base models directory
+        # models directory
         base_path = os.path.join(
             os.path.dirname(__file__),
             '..',
