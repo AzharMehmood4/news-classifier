@@ -86,15 +86,6 @@ Models were evaluated using standard classification metrics:
 
 ---
 
-## 🌐 Live Demo
-
-🔗 **Live Application:**  
-
-The application allows users to input a news headline or article snippet and instantly
-predict its category using a machine learning model, with deep learning support coming soon for further improvements and expansion.
-
----
-
 ##  Application Preview
 
 ### Overview
