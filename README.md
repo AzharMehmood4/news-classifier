@@ -1,4 +1,4 @@
-#🌐 News Classifier AI
+## 🌐 News Classifier AI
 
 An end-to-end **Natural Language Processing (NLP)** system that classifies news articles into
 **World, Sports, Business, and Sci/Tech** categories using both traditional machine learning
@@ -7,7 +7,7 @@ Soon, we will extend it further with more categories and advanced AI models.
 
 ---
 
-## 🚀 Project Overview
+##  Project Overview
 
 This project demonstrates a complete machine learning lifecycle for text classification, covering:
 
@@ -95,7 +95,7 @@ predict its category using a machine learning model, with deep learning support 
 
 ---
 
-## 📸 Application Preview
+##  Application Preview
 
 ### Overview
 <img width="1366" height="725" alt="overview" src="https://github.com/user-attachments/assets/df3ecc17-0a4a-49cf-ab7e-1464590c5ed5" />
@@ -119,14 +119,14 @@ predict its category using a machine learning model, with deep learning support 
 Clone the repository and run the application locally:
 
 ```bash
-git clone 
+git clone https://github.com/AzharMehmood4/news-classifier
 cd news-classifier
 
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 
-streamlit run src/streamlit_app.py
+streamlit run src/app.py
 ````
 
 ---
@@ -143,11 +143,10 @@ streamlit run src/streamlit_app.py
 
 ---
 
-## 👤 Author
+## 👤 Authors
 
-**Azhar Mehmood** 
-**Alyan Asghar**
-**Muhammad Moez Khan**
-
+- **Azhar Mehmood** (8397)  
+- **Alyan Asghar** (8651)  
+- **Muhammad Moez Khan** (8774)
 
 ---
