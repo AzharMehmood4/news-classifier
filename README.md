@@ -141,6 +141,6 @@ streamlit run src/app.py
 - **Azhar Mehmood** (8397)  
 - **Alyan Asghar** (8651)  
 - **Muhammad Moez Khan** (8774)
-- **Ijaz Ahmad** (8830)
+- **Salik Bashir** (5620)
 
 ---
