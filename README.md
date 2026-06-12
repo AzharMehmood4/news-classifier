@@ -1,4 +1,4 @@
-## 🌐 News Classifier AI
+## 🌐 NovaNews AI News Classifier 
 
 An end-to-end **Natural Language Processing (NLP)** system that classifies news articles into
 **World, Sports, Business, and Sci/Tech** categories using both traditional machine learning
@@ -112,8 +112,8 @@ Models were evaluated using standard classification metrics:
 Clone the repository and run the application locally:
 
 ```bash
-git clone https://github.com/AzharMehmood4/news-classifier
-cd news-classifier
+git clone https://github.com/AzharMehmood4/ai-news-classifier
+cd ai-news-classifier
 
 python -m venv venv
 source venv/bin/activate
