@@ -138,6 +138,6 @@ streamlit run src/app.py
 
 ## 👤 Authors
 
-- **Azhar Mehmood** (8397)  
+- **Azhar Mehmood**
 
 ---
